@@ -76,7 +76,7 @@ def payments_to_accruals():
     result_accrual = list(coll_accrual.find())
     result_payment = list(coll_payment.find())
 
-    # Поиск платежей
+    # Поиск платежей и составление пар индентичных по месяцу.
     pairs = []
     payments_without_accurals = []
     i = 0
@@ -92,7 +92,8 @@ def payments_to_accruals():
                 break
             j += 1
         i += 1
-
+    
+    # Составление пар с различными месяцами.
     if len(result_accrual) < len(result_payment):
         x = len(result_accrual)
     else:
@@ -107,10 +108,11 @@ def payments_to_accruals():
             pairs.append([min_accr, result_payment[x-1]])
         del result_payment[x-1]
         x -= 1
-
+    
+    # Вывод результатов
     for x in pairs:
         print(x, '\n')
-
+        
     if result_payment:
         print('Payments without accruals: ')
         print(result_payment)
